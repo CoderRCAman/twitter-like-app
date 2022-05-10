@@ -39,6 +39,7 @@ export default function Login() {
           user_name: newUserName,
         });
       }
+      user_ctx.setRefresh(refresh => refresh+1) ;
       navigate("/home");
     } catch (error) {}
   };

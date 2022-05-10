@@ -23,8 +23,8 @@ export default function App() {
             path="/home"
             element={loading ? <LoadingPage /> : user ? <Home /> : <Navigate to='/login' />}
           />
-          <Route path="/login" element={loading ? <LoadingPage/> : !user?<Login /> : <Navigate to='/home'/>} />
-          {/* <Route path="/login" element={<Login/>}/> testing purpose */}
+          {/* <Route path="/login" element={loading ? <LoadingPage/> : !user?<Login /> : <Navigate to='/home'/>} /> */}
+          <Route path="/login" element={<Login/>}/> testing purpose
           <Route
             path="/profile"
             element={loading ? <LoadingPage /> : user ? <Profile /> : <Navigate to='/login' />}
