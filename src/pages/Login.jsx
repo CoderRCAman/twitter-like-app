@@ -10,6 +10,7 @@ import {
   collection,
   addDoc,
   getDocs,
+  query,
   where,
 } from "firebase/firestore/lite";
 import { db } from "../firebase.config";
@@ -22,13 +23,15 @@ export default function Login() {
   const userCollectionRef = collection(db, "user");
   const updateUserName = async () => {
     const uid = user.user.uid;
-    //check if user already exist?
+    //check if user already exist? 
+    const q = query(userCollectionRef,where("uid", "==", uid))
     try {
       const endResult = await getDocs(
-        userCollectionRef,
-        where("uid", "==", uid)
+        q
       );
+      console.log(endResult);
       if (endResult.size === 0) {
+        console.log('ssjsjjs')
         //no user_name exist
         const newUserName = slugify(user.user.displayName) + shortid.generate();
         await addDoc(userCollectionRef, {
@@ -41,7 +44,8 @@ export default function Login() {
   };
 
   useEffect(() => {
-    if (user && user_ctx.user) {
+    if (user && user_ctx.user.user) {
+      console.log('jkjk')
       updateUserName();
     }
   }, [user_ctx?.user.user]);
