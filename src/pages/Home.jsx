@@ -55,10 +55,18 @@ export default function Home() {
     }
     try {
       const tweetRef = collection(db, "tweet");
-      await addDoc(tweetRef, {
+      const tweetRes = await addDoc(tweetRef, {
         picture: downloadURL,
         content: uploadPost.content,
-      });
+      }); 
+      const postedTweets = user_ctx.user.user_info?.tweets ? user_ctx.user.user_info.tweets : [] ; 
+      postedTweets.push(tweetRes.id) ;
+      const userDoc = doc(db,'user',user_ctx.user.user_info.id) ;  
+      await updateDoc(userDoc , {
+          tweets: postedTweets
+      })
+      toast.success('TWEETED!'); 
+      user_ctx.setRefresh(refresh => refresh+1) ;
     } catch (error) {
       console.log(error);
       toast.error("Unable to post tweet right now!");
